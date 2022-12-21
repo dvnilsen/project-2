@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
     res.render("home.ejs")
 })
 
-app.use("/users", require("./controllers/users")) 
+app.use("/users", require("./controllers/users")) // using new.ejs, login.ejs, etc 
 
 // listen
 app.listen(PORT, () => {
