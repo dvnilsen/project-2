@@ -34,7 +34,7 @@ router.post("/", async (req, res) => {
 
 // GET /users/login -- render a login form that POSTs to /users/login
 router.get("/login", (req, res) => {
-    res.send("show login form")
+    res.render("users/login.ejs") 
 })
 
 // POST /users/login -- ingest data from form rendered by above login GET
@@ -47,6 +47,19 @@ router.post("/login", async (req, res) => {
             }
         })
         // boilerplate message if login fails
+        const badCredentialMessage = "username or password incorrect"
+        if (!user) {
+            // if the user isn't found in db
+            res.redirect("/users/login?message=", + badCredentialMessage)
+        } else if (user.password !== req.body.password) {
+            // if pw is incorrect
+            res.redirect("/users/login?message=", + badCredentialMessage)
+        } else {
+            // if the user is found and their pw matches, log them in
+            console.log("logging user in!")
+            res.cookie("userId", user.id)
+            res.redirect("/") 
+        }
     } catch (err) {
         console.log(err) 
     }
